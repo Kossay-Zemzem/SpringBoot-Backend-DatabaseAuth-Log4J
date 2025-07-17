@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns="https://logging.apache.org/xml/ns"
+               xsi:schemaLocation="
+                       https://logging.apache.org/xml/ns
+                       https://logging.apache.org/xml/ns/log4j-config-2.xsd"
+>
+    <Appenders>
+        <Console name="CONSOLE">
+            <PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{blue} %highlight{[%level]}{FATAL=red,ERROR=red,WARN=yellow,INFO=green,DEBUG=cyan} %msg%n" />
+        </Console>
+<!--         Simple File appender for package com.project.ProjectYC logs-->
+        <File name="PROJECT_ONLY_LOG" fileName="logs/project_logs.log" append="true"> <!--append mode set to false will create a new file / overwite old one (if the name is the same) instead of appending in the same file-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [MY_APP:%level] %msg%n" />
+        </File>
+        <!-- Simple File appender for other logs -->
+        <File name="ALL_LOGS" fileName="logs/server_logs.log" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] %msg%n" />
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.project.ProjectYC" level="DEBUG" >
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="PROJECT_ONLY_LOG" />
+        </Logger>
+        <Logger name="org.springframework" level="WARN">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="ALL_LOGS" />
+        </Logger>
+        <Logger name="org.hibernate" level="WARN">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="ALL_LOGS" />
+        </Logger>
+        <Logger name="org.apache.catalina" level="WARN">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="ALL_LOGS" />
+        </Logger>
+        <Logger name="org.apache.coyote" level="WARN">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="ALL_LOGS" />
+        </Logger>
+        <Root level="WARN"> <!-- will log the previous message and  other messages that are not caught by the above loggers -->
+            <AppenderRef ref="ALL_LOGS" />
+        </Root>
+    </Loggers>
+</Configuration>
