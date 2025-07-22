@@ -114,5 +114,9 @@ public class AuthController {
         }
         return true;
     }
+    @GetMapping("/resourceTest")
+    public String getResourceTest() {
+        return "This is a test resource that requires authentication";
+    }
 
 }
