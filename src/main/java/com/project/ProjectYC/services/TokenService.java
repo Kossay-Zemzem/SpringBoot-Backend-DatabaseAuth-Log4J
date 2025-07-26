@@ -23,7 +23,8 @@ public class TokenService {
     //Chercher Token
     public Boolean chercherToken(String token) {
         try {
-            return authRepo.findById(token).get().getValue() != null;
+        if (token == null || token.isEmpty()) return false;
+        return authRepo.findById(token).get().getValue() != null;
         } catch (NoSuchElementException e) {
             return false;
         }

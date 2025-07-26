@@ -1,6 +1,7 @@
 package com.project.ProjectYC.controllers;
 
 import com.project.ProjectYC.models.AuthToken;
+import com.project.ProjectYC.models.LoginReponseDTO;
 import com.project.ProjectYC.models.UserCred;
 import com.project.ProjectYC.services.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class AuthController {
     private static final Logger LG = LogManager.getLogger(); // Add a logger for logging purposes using Log4j
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserCred user, HttpServletRequest request) {
+    public ResponseEntity<LoginReponseDTO> login(@RequestBody UserCred user, HttpServletRequest request) {
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
@@ -66,10 +67,12 @@ public class AuthController {
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, authCookie.toString()) //add the cookie baked earlier to the response header (as a string)
                     //.body(Map.of("success", true, "token", token));
-                    .body(Map.of("success", true));
-
+//                    .body(Map.of("success", true));
+                    .body(new LoginReponseDTO("success", true));
         } catch (AuthenticationException e) {
-            return ResponseEntity.ok().body(Map.of("success", false, "message", "Authentication failed"));
+            return ResponseEntity.ok()
+//                    .body(Map.of("success", false, "message", "Authentication failed"));
+                    .body(new LoginReponseDTO("Authentication failed", false));
         }
     }
 
@@ -89,6 +92,7 @@ public class AuthController {
             return false;
         }
     }
+
     @PostMapping("/logout")
     public Boolean logout(@CookieValue(value = authToken, required = true) String ClientAuthToken, HttpServletResponse response) {
         if (tokenService.chercherToken(ClientAuthToken)) {
@@ -114,9 +118,16 @@ public class AuthController {
         }
         return true;
     }
-    @GetMapping("/resourceTest")
-    public String getResourceTest() {
-        return "This is a test resource that requires authentication";
-    }
 
+    @GetMapping("/resourceTest")
+    public ResponseEntity<String> getResourceTest(@CookieValue(value = authToken, required = false) String ClientAuthToken) {
+        if (tokenService.chercherToken(ClientAuthToken)) {
+            LG.info("[i] Resource access using valid token:" + ClientAuthToken);
+            return ResponseEntity.ok("This is a test resource that requires authentication");
+        } else {
+            LG.warn("[!] Resource access using Rejected Token (falsified or expired token) ");
+            return ResponseEntity.status(401).body("Access denied: Invalid or expired authentication token");
+        }
+
+    }
 }
