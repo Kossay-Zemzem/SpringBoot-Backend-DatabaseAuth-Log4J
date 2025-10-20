@@ -7,9 +7,13 @@ The backend stores encrypted user credentials as well as the authentication toke
 > In a production setup, user credentials should never be included in the code even if encrypted. They should instead be securely managed in the database.
 ## Project Structure
 **Framework** : Spring Boot
+
 **Dependencies**: Spring Security, Log4J, Lombok 
+
 **Database** : MySQL
+
 **Tools** : Postman  
+
 > ℹ️ This backend was tested with Postman and as well as a basic Angular Front end to ensure cookies were properly working with the browser as well as ensure the CORS configuration works. 
 
 ##  API Endpoints
