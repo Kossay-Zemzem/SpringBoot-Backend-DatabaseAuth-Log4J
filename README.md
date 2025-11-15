@@ -3,7 +3,8 @@ This project (codenamed ProjectYC) demonstrates a simple authentication backend 
 
 The backend stores encrypted user credentials as well as the authentication tokens in a MySQL database. These are then used to validate client API requests.
 
-> ⚠️ **Note:** this project is made for demonstration purposes , as such mock user credentials were included in the code **for testing purposes**.  
+> [!WARNING]
+> This project was made for demonstration purposes , as such mock user credentials were included in the code **for testing purposes**.  
 > In a production setup, user credentials should never be included in the code even if encrypted. They should instead be securely managed in the database.
 ## Project Structure
 **Framework** : Spring Boot
@@ -14,7 +15,8 @@ The backend stores encrypted user credentials as well as the authentication toke
 
 **Tools** : Postman  
 
-> ℹ️ This backend was tested with Postman and as well as a basic Angular Front end to ensure cookies were properly working with the browser as well as ensure the CORS configuration works. 
+> [!NOTE]
+>  This backend was tested with Postman and as well as a basic Angular Front end to ensure cookies were properly working with the browser as well as ensure the CORS configuration works. 
 
 ##  API Endpoints
 
@@ -27,4 +29,5 @@ The backend stores encrypted user credentials as well as the authentication toke
 
 
 
-ℹ️ This documentation is still under developement.
+> [!NOTE]
+>  This documentation is still under developement.
